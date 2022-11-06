@@ -3,16 +3,10 @@ A Foundry plugin that enables you to plot charts within solidity.
 
 ![output](output.svg)
 
-<!-- # Table of Contents
-- [Installation](#installation)
-- [Usage](#usage)
-- [Example Reports](https://github.com/0xKitsune/solplot-reports)
-- [Contributing](#contributing) -->
-
 
 &nbsp;
 # Installation
-First, make sure that you have [Rust installed](https://www.rust-lang.org/tools/install). Then you can choose either of the installation methods by entering the corresponding command in your terminal below.
+First, make sure that you have [Rust installed](https://www.rust-lang.org/tools/install). Then install source as directed below.
 
 <!-- &nbsp;
 ### Install from crates.io
@@ -21,11 +15,24 @@ cargo install solplot
 ``` -->
 
 &nbsp;
-### Install from source
+### Installing binary from source
 ```
 git clone https://github.com/0xClandestine/solplot &&
 cd solplot &&
 cargo install --path .
+```
+
+Then add `solplot` to your foundry project.
+
+```
+forge install 0xClandestine/solplot
+```
+
+
+```solidity
+
+    
+
 ```
 
 &nbsp;
