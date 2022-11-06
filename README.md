@@ -1,6 +1,7 @@
 # 🖌️solplot
 A Foundry plugin that enables you to plot charts within solidity.
 
+![output](output.svg)
 
 <!-- # Table of Contents
 - [Installation](#installation)
