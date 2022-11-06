@@ -22,14 +22,16 @@ pub fn to_vec(input_file: String) -> Vec<(f64, f64)> {
     coordinates
 }
 
-pub fn to_chart(input_file: String, output_file: String) {
-
-    let chart = Plot::new(to_vec(input_file))
-        .line_style(
-            LineStyle::new()
-                .colour("cyan")
-                .linejoin(LineJoin::Round),
-        );
+pub fn to_chart(
+    input_file: String,
+    output_file: String,
+    plot_color: String
+) {
+    let chart = Plot::new(to_vec(input_file)).line_style(
+        LineStyle::new()
+            .colour(plot_color)
+            .linejoin(LineJoin::Round),
+    );
 
     let view = ContinuousView::new()
         .add(chart);
