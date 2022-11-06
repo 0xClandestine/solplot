@@ -5,7 +5,7 @@ A Foundry plugin that enables you to plot charts within solidity.
 <!-- # Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
-- [Example Reports](https://github.com/0xKitsune/solstat-reports)
+- [Example Reports](https://github.com/0xKitsune/solplot-reports)
 - [Contributing](#contributing) -->
 
 
@@ -13,11 +13,11 @@ A Foundry plugin that enables you to plot charts within solidity.
 # Installation
 First, make sure that you have [Rust installed](https://www.rust-lang.org/tools/install). Then you can choose either of the installation methods by entering the corresponding command in your terminal below.
 
-&nbsp;
+<!-- &nbsp;
 ### Install from crates.io
 ```
-cargo install solstat
-```
+cargo install solplot
+``` -->
 
 &nbsp;
 ### Install from source
@@ -32,7 +32,7 @@ cargo install --path .
 
 
 ```
-Usage: solstat [OPTIONS]
+Usage: solplot [OPTIONS]
 
 Options:
 -i, --input-file <INPUT_FILE>
