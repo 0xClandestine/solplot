@@ -28,18 +28,18 @@ Then add `solplot` to your foundry project.
 forge install 0xClandestine/solplot
 ```
 
-Now simply inherit `Plot` into your test contract, and you'll have access to `plot(<input_file>, <output_file>)`.
+Now simply inherit `Plot` into your test contract, and you'll have access to `plot(<input_file>, <output_file>, <plot_color>)`.
 
 ```js
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "../src/Plot.sol";
+import "solplot/Plot.sol";
 
 contract PlotTest is Plot {
 
     function testPlot() public {
-        plot("input.txt", "output.svg");
+        plot("input.txt", "output.svg", "cyan");
     }
 }
 
@@ -55,6 +55,7 @@ Usage: solplot [OPTIONS]
 Options:
 -i, --input-file <INPUT_FILE>
 -o, --output-file <OUTPUT_FILE>
+--plot-color <PLOT_COLOR>
 
-Usage: solplot --input-file <INPUT_FILE> --output-file <OUTPUT_FILE>
+Usage: solplot --input-file <INPUT_FILE> --output-file <OUTPUT_FILE> --plot-color <PLOT_COLOR>
 ```
