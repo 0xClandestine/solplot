@@ -7,9 +7,11 @@ abstract contract Plot is Test {
     function plot(
         string memory inputFile,
         string memory outputFile,
-        string memory plotColor
+        string memory plotColor,
+        uint8 decimals
     ) public {
-        string[] memory ffi = new string[](7);
+
+        string[] memory ffi = new string[](9);
 
         ffi[0] = "solplot";
 
@@ -25,6 +27,26 @@ abstract contract Plot is Test {
 
         ffi[6] = plotColor;
 
+        ffi[7] = "--decimals";
+
+        ffi[8] = vm.toString(decimals);
+
         vm.ffi(ffi);
+    }
+
+    function plot(
+        string memory inputFile,
+        string memory outputFile,
+        string memory plotColor
+    ) public {
+        plot(inputFile, outputFile, plotColor, 1);
+    }
+
+    function plotWad(
+        string memory inputFile,
+        string memory outputFile,
+        string memory plotColor
+    ) public {
+        plot(inputFile, outputFile, plotColor, 18);
     }
 }

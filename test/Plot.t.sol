@@ -5,6 +5,6 @@ import "../src/Plot.sol";
 
 contract PlotTest is Plot {
     function testPlot() public {
-        plot("input.txt", "output.svg", "cyan");
+        plot("input.txt", "output.svg", "cyan", 18);
     }
 }

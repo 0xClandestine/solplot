@@ -13,6 +13,9 @@ struct Args {
 
     #[arg(long, required = true)]
     plot_color: String,
+
+    #[arg(long, required = true)]
+    decimals: u32,
 }
 
 fn main() {
@@ -21,6 +24,7 @@ fn main() {
     lib::to_chart(
         args.input_file,
         args.output_file,
-        args.plot_color
+        args.plot_color,
+        args.decimals,
     );
 }

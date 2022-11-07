@@ -37,31 +37,27 @@
 </g>
 <g>
 <g>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-0.008775051324427437" y2="-0.008775051324427437"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-68.08190047903005" y2="-68.08190047903005"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-136.1550259067357" y2="-136.1550259067357"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-204.22815133444132" y2="-204.22815133444132"/>
-<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-272.3012767621469" y2="-272.3012767621469"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-0.00000000001481324391436115" y2="-0.00000000001481324391436115"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-95.5865356969081" y2="-95.5865356969081"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-191.17307139380137" y2="-191.17307139380137"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-286.75960709069466" y2="-286.75960709069466"/>
 </g>
 <line stroke="black" stroke-width="1" x1="0" x2="0" y1="0" y2="-340"/>
 <g>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-0.008775051324427437">
-0.90011
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-0.00000000001481324391436115">
+320511277.97959
 </text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-68.08190047903005">
-0.92011
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-95.5865356969081">
+330511277.97959
 </text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-136.1550259067357">
-0.94011
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-191.17307139380137">
+340511277.97959
 </text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-204.22815133444132">
-0.96011
-</text>
-<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-272.3012767621469">
-0.98011
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-286.75960709069466">
+350511277.97959
 </text>
 </g>
-<text font-size="12" text-anchor="middle" transform="rotate(-90 -84 -170)" x="-84" y="-182">
+<text font-size="12" text-anchor="middle" transform="rotate(-90 -180 -170)" x="-180" y="-182">
 
 </text>
 </g>

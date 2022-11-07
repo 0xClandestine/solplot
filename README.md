@@ -39,7 +39,7 @@ import "solplot/Plot.sol";
 contract PlotTest is Plot {
 
     function testPlot() public {
-        plot("input.txt", "output.svg", "cyan");
+        plot("input.txt", "output.svg", "cyan", 18);
     }
 }
 
@@ -56,6 +56,7 @@ Options:
 -i, --input-file <INPUT_FILE>
 -o, --output-file <OUTPUT_FILE>
 --plot-color <PLOT_COLOR>
+--decimals <DECIMALS>
 
 Usage: solplot --input-file <INPUT_FILE> --output-file <OUTPUT_FILE> --plot-color <PLOT_COLOR>
 ```
