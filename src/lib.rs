@@ -15,7 +15,9 @@ pub fn to_vec(input_file: String, decimals: u32) -> Vec<(f64, f64)> {
     let mut line_count: f64 = 0.0;
 
     for x in data {
-        coordinates.push((line_count, (to_num(x) as f64) / 10_u32.pow(decimals) as f64));
+
+        coordinates.push((line_count, (to_num(x) as f64) / f64::powf(10.0, decimals.into())));
+
         line_count += 1.0;
     }
 
