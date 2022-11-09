@@ -20,9 +20,9 @@ contract DemoPlot is Plot {
 
         // Create input csv
         for (uint256 i; i < 100; i++) {
-
             string[] memory cols = new string[](7);
 
+            // Use first row as legend
             if (i == 0) {
                 cols[0] = "x axis";
                 cols[1] = "5 unit epoch";
@@ -41,11 +41,10 @@ contract DemoPlot is Plot {
                 cols[6] = vm.toString(expToTarget(1e18, 0.9e18, i, 50));
             }
 
-
             writeRowToCSV("input.csv", cols);
         }
 
         // Create output svg with values denominated in wad
-        plotWad("input.csv", "output.svg", 6);
+        plot({inputCsv: "input.csv", outputSvg: "output.svg", inputDecimals: 18, totalColumns: 6, legend: true});
     }
 }

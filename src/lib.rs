@@ -16,6 +16,9 @@ pub struct Chart {
 
     #[arg(long, required = true)]
     pub columns: usize,
+
+    #[arg(long, required = false)]
+    pub legend: bool,
 }
 
 pub struct Column {
@@ -24,7 +27,6 @@ pub struct Column {
 }
 
 impl Chart {
-
     pub fn parse_column(&self, n: usize) -> Column {
         let mut values = vec![];
 
@@ -44,20 +46,26 @@ impl Chart {
 
         for (i, row) in csv.into_iter().enumerate() {
             if let Ok(r) = row {
-
                 let mut cols = r.columns().expect("Error converting column...");
                 let col = cols.nth(n).unwrap().parse::<String>().unwrap();
 
-                // We assume the first row is used to name columns
-                if i != 0 {
-                    values.push(col.parse::<f64>().unwrap() / denominator);
+                // We assume the first row is used to name columns if legend is true
+                if self.legend {
+                    if i != 0 {
+                        values.push(col.parse::<f64>().unwrap() / denominator);
+                    } else {
+                        column_name = col;
+                    }
                 } else {
-                    column_name = col;
+                    values.push(col.parse::<f64>().unwrap() / denominator);
                 }
             }
         }
 
-        Column{name: column_name, contents: values}
+        Column {
+            name: column_name,
+            contents: values,
+        }
     }
 
     pub fn plot(&self) {
@@ -67,7 +75,6 @@ impl Chart {
 
         // First column is always `x` axis, each additional column is a plot
         for i in 1..self.columns {
-
             let column: Column = self.parse_column(i);
 
             plot.add_trace(
