@@ -12,41 +12,52 @@ pub struct Chart {
     pub output_file: String,
 
     #[arg(long, required = true)]
-    pub plot_color: String,
+    pub decimals: f64,
 
     #[arg(long, required = true)]
-    pub decimals: u32,
+    pub columns: usize,
 }
 
 impl Chart {
+    pub fn parse_column(&self, n: usize) -> Vec<f64> {
+        let mut values = vec![];
 
-    pub fn save(&self) {
+        let denominator = if self.decimals == 1.0 {
+            1.0
+        } else {
+            10.0_f64.powf(self.decimals.into())
+        };
+
         let data = txt_writer::ReadData {}
-            .read(&self.input_file)
+            .read_one(&self.input_file)
             .expect("Error reading file...");
-    
-        let mut x_axis = vec![];
-        let mut y_axis = vec![];
-    
-        for (i, y) in data.iter().enumerate() {
-            let denominator = if self.decimals == 1 {
-                1.0
-            } else {
-                10.0_f64.powf(self.decimals.into())
-            };
-    
-            x_axis.push(i as f64);
-            y_axis.push(y.parse::<f64>().unwrap() / denominator);
+
+        let csv = quick_csv::Csv::from_string(&data);
+
+        for row in csv.into_iter() {
+            if let Ok(r) = row {
+                let mut cols = r.columns().expect("Error converting column...");
+                let col = cols.nth(n).unwrap().parse::<String>().unwrap();
+
+                values.push(col.parse::<f64>().unwrap() / denominator);
+            }
         }
-    
+
+        values
+    }
+
+    pub fn plot(&self) {
         let mut plot = Plot::new();
-    
-        plot.add_trace(
-            Scatter::new(x_axis, y_axis)
-                .mode(Mode::Lines)
-                .name("Lines"),
-        );
-    
+
+        // First column is always `x` axis, each additional column is a plot
+        for i in 1..self.columns {
+            plot.add_trace(
+                Scatter::new(self.parse_column(0), self.parse_column(i))
+                    .mode(Mode::Lines)
+                    .name("Lines"),
+            );
+        }
+
         plot.write_image(&self.output_file, ImageFormat::SVG, 800, 600, 1.0);
     }
 }
