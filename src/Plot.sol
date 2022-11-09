@@ -4,36 +4,54 @@ pragma solidity ^0.8.13;
 import "forge-std/Test.sol";
 
 abstract contract Plot is Test {
-    function plot(string memory inputFile, string memory outputFile, uint8 decimals, uint8 totalColumns) public {
-        string[] memory ffi = new string[](9);
+    /// @notice Plot chart via plotly-rs + hevm ffi.
+    /// @param inputCsv - Path to csv file that contains the plot data.
+    /// @param outputSvg - Path to save svg output to.
+    /// @param inputDecimals - Denomination of the input data.
+    /// @param totalColumns - Total number of columns within inputCsv to plot.
+    /// @param legend - Determines whether the first row of the inputCsv should be used for legend naming.
+    function plot(string memory inputCsv, string memory outputSvg, uint8 inputDecimals, uint8 totalColumns, bool legend)
+        public
+    {
+        if (legend) {
+            string[] memory ffi = new string[](10);
 
-        ffi[0] = "solplot";
+            ffi[0] = "solplot";
 
-        ffi[1] = "--input-file";
+            ffi[1] = "--input-file";
+            ffi[2] = inputCsv;
 
-        ffi[2] = inputFile;
+            ffi[3] = "--output-file";
+            ffi[4] = outputSvg;
 
-        ffi[3] = "--output-file";
+            ffi[5] = "--decimals";
+            ffi[6] = vm.toString(inputDecimals);
 
-        ffi[4] = outputFile;
+            ffi[7] = "--columns";
+            ffi[8] = vm.toString(totalColumns);
 
-        ffi[5] = "--decimals";
+            ffi[9] = "--legend";
 
-        ffi[6] = vm.toString(decimals);
+            vm.ffi(ffi);
+        } else {
+            string[] memory ffi = new string[](9);
 
-        ffi[7] = "--columns";
+            ffi[0] = "solplot";
 
-        ffi[8] = vm.toString(totalColumns);
+            ffi[1] = "--input-file";
+            ffi[2] = inputCsv;
 
-        vm.ffi(ffi);
-    }
+            ffi[3] = "--output-file";
+            ffi[4] = outputSvg;
 
-    function plot(string memory inputFile, string memory outputFile, uint8 totalColumns) public {
-        plot(inputFile, outputFile, 1, totalColumns);
-    }
+            ffi[5] = "--decimals";
+            ffi[6] = vm.toString(inputDecimals);
 
-    function plotWad(string memory inputFile, string memory outputFile, uint8 totalColumns) public {
-        plot(inputFile, outputFile, 18, totalColumns);
+            ffi[7] = "--columns";
+            ffi[8] = vm.toString(totalColumns);
+
+            vm.ffi(ffi);
+        }
     }
 
     function writeRowToCSV(string memory file, string[] memory cols) public {
