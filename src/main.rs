@@ -2,29 +2,6 @@ use clap::Parser;
 
 mod lib;
 
-#[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
-struct Args {
-    #[arg(short, long, required = true)]
-    input_file: String,
-
-    #[arg(short, long, required = true)]
-    output_file: String,
-
-    #[arg(long, required = true)]
-    plot_color: String,
-
-    #[arg(long, required = true)]
-    decimals: u32,
-}
-
 fn main() {
-    let args = Args::parse();
-
-    lib::to_chart(
-        args.input_file,
-        args.output_file,
-        args.plot_color,
-        args.decimals,
-    );
+    let chart = lib::Chart::save(&lib::Chart::parse());
 }
