@@ -18,22 +18,19 @@ contract DemoPlot is Plot {
     function testPlot_ExpToTarget() public {
         vm.removeFile("input.csv");
 
-        uint128 x = 1e18;
-        uint128 e = 10;
-        uint128 tv = 0.9e18;
-
         // Create input csv
-        for (uint256 t; t < 100; t++) {
+        for (uint256 i; i < 100; i++) {
 
             string[] memory cols = new string[](3);
 
-            cols[0] = vm.toString(t * 1e18);
-            cols[1] = vm.toString(expToTarget(x, tv, t, e));
-            cols[2] = vm.toString(expToTarget(x, tv, t, e*2));
+            cols[0] = vm.toString(i * 1e18);
+            cols[1] = vm.toString(expToTarget(1e18, 0.9e18, i, 10));
+            cols[2] = vm.toString(expToTarget(1e18, 0.9e18, i, 20));
 
-            writeToCSV("input.csv", cols);
+            writeRowToCSV("input.csv", cols);
         }
 
+        // Create output svg with values denominated in wad
         plotWad("input.csv", "output.svg", 3);
     }
 }

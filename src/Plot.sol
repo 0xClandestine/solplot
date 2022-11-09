@@ -36,7 +36,7 @@ abstract contract Plot is Test {
         plot(inputFile, outputFile, 18, totalColumns);
     }
 
-    function writeToCSV(string memory file, string[] memory cols) public {
+    function writeRowToCSV(string memory file, string[] memory cols) public {
         string memory row;
 
         for (uint256 i; i < cols.length; i++) {
