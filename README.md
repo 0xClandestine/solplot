@@ -53,24 +53,35 @@ contract DemoPlot is Plot {
 
         // Create input csv
         for (uint256 i; i < 100; i++) {
-
             string[] memory cols = new string[](7);
 
-            cols[0] = vm.toString(i * 1e18);
-            cols[1] = vm.toString(expToTarget(1e18, 0.9e18, i, 5));
-            cols[2] = vm.toString(expToTarget(1e18, 0.9e18, i, 10));
-            cols[3] = vm.toString(expToTarget(1e18, 0.9e18, i, 20));
-            cols[4] = vm.toString(expToTarget(1e18, 0.9e18, i, 30));
-            cols[5] = vm.toString(expToTarget(1e18, 0.9e18, i, 40));
-            cols[6] = vm.toString(expToTarget(1e18, 0.9e18, i, 50));
+            // Use first row as legend
+            if (i == 0) {
+                cols[0] = "x axis";
+                cols[1] = "5 unit epoch";
+                cols[2] = "10 unit epoch";
+                cols[3] = "20 unit epoch";
+                cols[4] = "30 unit epoch";
+                cols[5] = "40 unit epoch";
+                cols[6] = "50 unit epoch";
+            } else {
+                cols[0] = vm.toString(i * 1e18);
+                cols[1] = vm.toString(expToTarget(1e18, 0.9e18, i, 5));
+                cols[2] = vm.toString(expToTarget(1e18, 0.9e18, i, 10));
+                cols[3] = vm.toString(expToTarget(1e18, 0.9e18, i, 20));
+                cols[4] = vm.toString(expToTarget(1e18, 0.9e18, i, 30));
+                cols[5] = vm.toString(expToTarget(1e18, 0.9e18, i, 40));
+                cols[6] = vm.toString(expToTarget(1e18, 0.9e18, i, 50));
+            }
 
             writeRowToCSV("input.csv", cols);
         }
 
         // Create output svg with values denominated in wad
-        plotWad("input.csv", "output.svg", 7);
+        plot({inputCsv: "input.csv", outputSvg: "output.svg", inputDecimals: 18, totalColumns: 6, legend: true});
     }
 }
+
 ```
 
 &nbsp;
@@ -78,13 +89,14 @@ contract DemoPlot is Plot {
 
 
 ```
-Usage: solplot --input-file <INPUT_FILE> --output-file <OUTPUT_FILE> --decimals <DECIMALS> --columns <COLUMNS>
+Usage: solplot [OPTIONS] --input-file <INPUT_FILE> --output-file <OUTPUT_FILE> --decimals <DECIMALS> --columns <COLUMNS>
 
 Options:
   -i, --input-file <INPUT_FILE>    
   -o, --output-file <OUTPUT_FILE>  
       --decimals <DECIMALS>        
       --columns <COLUMNS>
+      --legend
   -h, --help                       Print help information
   -V, --version                    Print version information
 ```
