@@ -54,17 +54,21 @@ contract DemoPlot is Plot {
         // Create input csv
         for (uint256 i; i < 100; i++) {
 
-            string[] memory cols = new string[](3);
+            string[] memory cols = new string[](7);
 
-            cols[0] = vm.toString(i * 1e18); // x axis
-            cols[1] = vm.toString(expToTarget(1e18, 0.9e18, i, 10)); // plot 1
-            cols[2] = vm.toString(expToTarget(1e18, 0.9e18, i, 20)); // plot 2
+            cols[0] = vm.toString(i * 1e18);
+            cols[1] = vm.toString(expToTarget(1e18, 0.9e18, i, 5));
+            cols[2] = vm.toString(expToTarget(1e18, 0.9e18, i, 10));
+            cols[3] = vm.toString(expToTarget(1e18, 0.9e18, i, 20));
+            cols[4] = vm.toString(expToTarget(1e18, 0.9e18, i, 30));
+            cols[5] = vm.toString(expToTarget(1e18, 0.9e18, i, 40));
+            cols[6] = vm.toString(expToTarget(1e18, 0.9e18, i, 50));
 
             writeRowToCSV("input.csv", cols);
         }
 
         // Create output svg with values denominated in wad
-        plotWad("input.csv", "output.svg", 3);
+        plotWad("input.csv", "output.svg", 7);
     }
 }
 ```
