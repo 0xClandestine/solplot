@@ -18,8 +18,14 @@ pub struct Chart {
     pub columns: usize,
 }
 
+pub struct Column {
+    pub name: String,
+    pub contents: Vec<f64>,
+}
+
 impl Chart {
-    pub fn parse_column(&self, n: usize) -> Vec<f64> {
+
+    pub fn parse_column(&self, n: usize) -> Column {
         let mut values = vec![];
 
         let denominator = if self.decimals == 1.0 {
@@ -34,27 +40,40 @@ impl Chart {
 
         let csv = quick_csv::Csv::from_string(&data);
 
-        for row in csv.into_iter() {
+        let mut column_name = "".to_string();
+
+        for (i, row) in csv.into_iter().enumerate() {
             if let Ok(r) = row {
+
                 let mut cols = r.columns().expect("Error converting column...");
                 let col = cols.nth(n).unwrap().parse::<String>().unwrap();
 
-                values.push(col.parse::<f64>().unwrap() / denominator);
+                // We assume the first row is used to name columns
+                if i != 0 {
+                    values.push(col.parse::<f64>().unwrap() / denominator);
+                } else {
+                    column_name = col;
+                }
             }
         }
 
-        values
+        Column{name: column_name, contents: values}
     }
 
     pub fn plot(&self) {
         let mut plot = Plot::new();
 
+        let x_axis = self.parse_column(0).contents;
+
         // First column is always `x` axis, each additional column is a plot
         for i in 1..self.columns {
+
+            let column: Column = self.parse_column(i);
+
             plot.add_trace(
-                Scatter::new(self.parse_column(0), self.parse_column(i))
+                Scatter::new(x_axis.clone(), column.contents)
                     .mode(Mode::Lines)
-                    .name("Lines"),
+                    .name(column.name),
             );
         }
 
