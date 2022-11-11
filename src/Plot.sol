@@ -10,9 +10,13 @@ abstract contract Plot is Test {
     /// @param inputDecimals - Denomination of the input data.
     /// @param totalColumns - Total number of columns within inputCsv to plot.
     /// @param legend - Determines whether the first row of the inputCsv should be used for legend naming.
-    function plot(string memory inputCsv, string memory outputSvg, uint8 inputDecimals, uint8 totalColumns, bool legend)
-        public
-    {
+    function plot(
+        string memory inputCsv,
+        string memory outputSvg,
+        uint8 inputDecimals,
+        uint8 totalColumns,
+        bool legend
+    ) public {
         if (legend) {
             string[] memory ffi = new string[](10);
 
@@ -62,6 +66,20 @@ abstract contract Plot is Test {
                 row = string.concat(cols[i], ",");
             } else {
                 row = string.concat(row, cols[i], ",");
+            }
+        }
+
+        vm.writeLine(file, row);
+    }
+
+    function writeRowToCSV(string memory file, uint256[] memory cols) public {
+        string memory row;
+
+        for (uint256 i; i < cols.length; i++) {
+            if (i == 0) {
+                row = string.concat(vm.toString(cols[i]), ",");
+            } else {
+                row = string.concat(row, vm.toString(cols[i]), ",");
             }
         }
 

@@ -38,11 +38,12 @@ import "../src/Plot.sol";
 
 contract DemoPlot is Plot {
     // Some math to plot out...
-    function expToTarget(uint256 initialValue, uint256 targetValue, uint256 index, uint256 epochLength)
-        internal
-        pure
-        returns (uint256 output)
-    {
+    function expToTarget(
+        uint256 initialValue,
+        uint256 targetValue,
+        uint256 index,
+        uint256 epochLength
+    ) internal pure returns (uint256 output) {
         output = initialValue >> (index / epochLength);
         output -= (output * (index % epochLength) / epochLength) >> 1;
         output += (initialValue - output) * targetValue / initialValue;
@@ -53,32 +54,42 @@ contract DemoPlot is Plot {
 
         // Create input csv
         for (uint256 i; i < 100; i++) {
-            string[] memory cols = new string[](7);
-
             // Use first row as legend
             if (i == 0) {
+                string[] memory cols = new string[](7);
+                
                 cols[0] = "x axis";
-                cols[1] = "5 unit epoch";
-                cols[2] = "10 unit epoch";
-                cols[3] = "20 unit epoch";
-                cols[4] = "30 unit epoch";
-                cols[5] = "40 unit epoch";
-                cols[6] = "50 unit epoch";
-            } else {
-                cols[0] = vm.toString(i * 1e18);
-                cols[1] = vm.toString(expToTarget(1e18, 0.9e18, i, 5));
-                cols[2] = vm.toString(expToTarget(1e18, 0.9e18, i, 10));
-                cols[3] = vm.toString(expToTarget(1e18, 0.9e18, i, 20));
-                cols[4] = vm.toString(expToTarget(1e18, 0.9e18, i, 30));
-                cols[5] = vm.toString(expToTarget(1e18, 0.9e18, i, 40));
-                cols[6] = vm.toString(expToTarget(1e18, 0.9e18, i, 50));
-            }
+                cols[1] = "h = 5";
+                cols[2] = "h = 10";
+                cols[3] = "h = 20";
+                cols[4] = "h = 30";
+                cols[5] = "h = 40";
+                cols[6] = "h = 50";
 
-            writeRowToCSV("input.csv", cols);
+                writeRowToCSV("input.csv", cols);
+            } else {
+                uint256[] memory cols = new uint256[](7);
+
+                cols[0] = i * 1e18 + 1e18;
+                cols[1] = expToTarget(1e18, 0.9e18, i - 1, 5);
+                cols[2] = expToTarget(1e18, 0.9e18, i - 1, 10);
+                cols[3] = expToTarget(1e18, 0.9e18, i - 1, 20);
+                cols[4] = expToTarget(1e18, 0.9e18, i - 1, 30);
+                cols[5] = expToTarget(1e18, 0.9e18, i - 1, 40);
+                cols[6] = expToTarget(1e18, 0.9e18, i - 1, 50);
+
+                writeRowToCSV("input.csv", cols);
+            }
         }
 
         // Create output svg with values denominated in wad
-        plot({inputCsv: "input.csv", outputSvg: "output.svg", inputDecimals: 18, totalColumns: 6, legend: true});
+        plot({
+            inputCsv: "input.csv",
+            outputSvg: "output.svg",
+            inputDecimals: 18,
+            totalColumns: 6,
+            legend: true
+        });
     }
 }
 
