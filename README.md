@@ -92,6 +92,7 @@ contract DemoPlot is Plot {
         });
     }
 }
+
 ```
 
 &nbsp;
@@ -99,13 +100,14 @@ contract DemoPlot is Plot {
 
 
 ```
-Usage: solplot --input-file <INPUT_FILE> --output-file <OUTPUT_FILE> --decimals <DECIMALS> --columns <COLUMNS>
+Usage: solplot [OPTIONS] --input-file <INPUT_FILE> --output-file <OUTPUT_FILE> --decimals <DECIMALS> --columns <COLUMNS>
 
 Options:
   -i, --input-file <INPUT_FILE>    
   -o, --output-file <OUTPUT_FILE>  
       --decimals <DECIMALS>        
       --columns <COLUMNS>
+      --legend
   -h, --help                       Print help information
   -V, --version                    Print version information
 ```
