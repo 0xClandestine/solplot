@@ -67,7 +67,6 @@ contract DemoPlot is Plot {
                 cols[3] = expToTarget(1e18, 0.9e18, i - 1, 20);
                 cols[4] = expToTarget(1e18, 0.9e18, i - 1, 30);
                 cols[5] = expToTarget(1e18, 0.9e18, i - 1, 40);
-                cols[6] = expToTarget(1e18, 0.9e18, i - 1, 50);
 
                 writeRowToCSV("input.csv", cols);
             }
