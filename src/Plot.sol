@@ -61,11 +61,15 @@ abstract contract Plot is Test {
     function writeRowToCSV(string memory file, string[] memory cols) public {
         string memory row;
 
-        for (uint256 i; i < cols.length; i++) {
+        uint256 length = cols.length;
+        for (uint256 i; i < length; {
             if (i == 0) {
                 row = string.concat(cols[i], ",");
             } else {
                 row = string.concat(row, cols[i], ",");
+            }
+            unchecked {
+                i += 1;
             }
         }
 
@@ -75,11 +79,15 @@ abstract contract Plot is Test {
     function writeRowToCSV(string memory file, uint256[] memory cols) public {
         string memory row;
 
-        for (uint256 i; i < cols.length; i++) {
+        uint256 length = cols.length;
+        for (uint256 i; i < length;) {
             if (i == 0) {
                 row = string.concat(vm.toString(cols[i]), ",");
             } else {
                 row = string.concat(row, vm.toString(cols[i]), ",");
+            }
+            unchecked {
+                i += 1;
             }
         }
 
