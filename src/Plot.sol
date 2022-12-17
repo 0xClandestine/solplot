@@ -62,7 +62,7 @@ abstract contract Plot is Test {
         string memory row;
 
         uint256 length = cols.length;
-        for (uint256 i; i < length; {
+        for (uint256 i; i < length;) {
             if (i == 0) {
                 row = string.concat(cols[i], ",");
             } else {
