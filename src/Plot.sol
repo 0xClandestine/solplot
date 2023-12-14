@@ -93,4 +93,23 @@ abstract contract Plot is Test {
 
         vm.writeLine(file, row);
     }
+
+
+    function writeRowToCSV(string memory file, int256[] memory cols) public {
+        string memory row;
+
+        uint256 length = cols.length;
+        for (uint256 i; i < length;) {
+            if (i == 0) {
+                row = string.concat(vm.toString(cols[i]), ",");
+            } else {
+                row = string.concat(row, vm.toString(cols[i]), ",");
+            }
+            unchecked {
+                i += 1;
+            }
+        }
+
+        vm.writeLine(file, row);
+    }
 }
