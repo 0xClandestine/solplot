@@ -47,9 +47,9 @@ abstract contract Plot is Test {
     }
 
     /// @notice Writes a row of string data to a CSV file
-    /// @param file The CSV file name
+    /// @param file A string representing the CSV file that's written to
     /// @param cols An array of string values representing the columns in the row
-    /// @return The name of the CSV file
+    /// @return A string representing the CSV file that's written to
     function writeRowToCSV(string memory file, string[] memory cols)
         public
         returns (string memory)
@@ -70,9 +70,9 @@ abstract contract Plot is Test {
     }
 
     /// @notice Writes a row of uint256 data to a CSV file
-    /// @param file The CSV file name
+    /// @param file A string representing the CSV file that's written to
     /// @param cols An array of uint256 values representing the columns in the row
-    /// @return The name of the CSV file
+    /// @return A string representing the CSV file that's written to
     function writeRowToCSV(string memory file, uint256[] memory cols)
         public
         returns (string memory)
@@ -93,9 +93,9 @@ abstract contract Plot is Test {
     }
 
     /// @notice Writes a row of int256 data to a CSV file
-    /// @param file The CSV file name
+    /// @param file A string representing the CSV file that's written to
     /// @param cols An array of int256 values representing the columns in the row
-    /// @return The name of the CSV file
+    /// @return A string representing the CSV file that's written to
     function writeRowToCSV(string memory file, int256[] memory cols)
         public
         returns (string memory)
