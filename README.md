@@ -34,52 +34,55 @@ Now simply inherit `Plot` into your test contract, and you'll have access to plo
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "../src/Plot.sol";
+import {Plot} from "../src/Plot.sol";
+
+// Some math to plot out...
+function expToLevel(uint256 x, uint256 y, uint256 i, uint256 h)
+    pure
+    returns (uint256 z)
+{
+    z = x >> (i / h);
+    z -= (z * (i % h) / h) >> 1;
+    z += (x - z) * y / x;
+}
 
 contract DemoPlot is Plot {
-    // Some math to plot out...
-    function expToTarget(
-        uint256 initialValue,
-        uint256 targetValue,
-        uint256 index,
-        uint256 epochLength
-    ) internal pure returns (uint256 output) {
-        output = initialValue >> (index / epochLength);
-        output -= (output * (index % epochLength) / epochLength) >> 1;
-        output += (initialValue - output) * targetValue / initialValue;
-    }
+    function testPlot() public {
+        unchecked {
+            string memory input = "input.csv";
+            string memory output = "output.svg";
+            string memory legend = ",h = 5,h = 10,h = 15,";
 
-    function testPlot_ExpToTarget() public {
-        vm.removeFile("input.csv");
+            uint256 base = 1 ether;
+            uint256 target = 0.9 ether;
+            uint256[] memory cols = new uint256[](4);
 
-        // Create input csv
-        for (uint256 i; i < 100; i++) {
-            // Use first row as legend
-            if (i == 0) {
-                // Make sure the same amount of columns are included for the legend
-                vm.writeLine("input.csv", "x axis,h = 5,h = 10,h = 20,h = 30,h = 40,h = 50,");
-            } else {
-                uint256[] memory cols = new uint256[](7);
+            // Remove previous demo input CSV if it exists locally
+            try vm.removeFile(input) {} catch {}
 
+            // Write legend on the first line of demo output CSV
+            vm.writeLine(input, legend);
+
+            // Loop over a range, and compute the results of the mathematical function
+            for (uint256 i; i < 100; ++i) {
                 cols[0] = i * 1e18;
-                cols[1] = expToTarget(1e18, 0.9e18, i - 1, 5);
-                cols[2] = expToTarget(1e18, 0.9e18, i - 1, 10);
-                cols[3] = expToTarget(1e18, 0.9e18, i - 1, 20);
-                cols[4] = expToTarget(1e18, 0.9e18, i - 1, 30);
-                cols[5] = expToTarget(1e18, 0.9e18, i - 1, 40);
+                cols[1] = expToLevel(base, target, i, 5);
+                cols[2] = expToLevel(base, target, i, 10);
+                cols[3] = expToLevel(base, target, i, 15);
 
-                writeRowToCSV("input.csv", cols);
+                // Append the results to the input CSV
+                writeRowToCSV(input, cols);
             }
-        }
 
-        // Create output svg with values denominated in wad
-        plot({
-            inputCsv: "input.csv",
-            outputSvg: "output.svg",
-            inputDecimals: 18,
-            totalColumns: 6,
-            legend: true
-        });
+            // Once the input CSV is fully created, use it to plot the output SVG
+            plot({
+                inputCsv: input,
+                outputSvg: output,
+                inputDecimals: 18,
+                totalColumns: 4,
+                legend: true
+            });
+        }
     }
 }
 ```
