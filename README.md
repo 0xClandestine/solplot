@@ -31,8 +31,8 @@ forge install 0xClandestine/solplot
 Now simply inherit `Plot` into your test contract, and you'll have access to plotting methods.
 
 ```js
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.0;
 
 import {Plot} from "../src/Plot.sol";
 
