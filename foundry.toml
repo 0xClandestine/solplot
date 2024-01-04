@@ -6,5 +6,5 @@ ffi = true
 fs_permissions = [{ access = "write", path = "./"}]
 
 [fmt]
-line_length = 80
+line_length = 100
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

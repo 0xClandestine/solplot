@@ -6,19 +6,14 @@ import "forge-std/Test.sol";
 /// @title Plot contract for generating plots from CSV data
 /// @dev This contract provides functions to generate plots and write rows to CSV files.
 abstract contract Plot is Test {
-    /// @notice Generates a plot from input CSV data and saves it as an SVG file
-    /// @param inputCsv The input CSV data
-    /// @param outputSvg The output SVG file name
-    /// @param inputDecimals The number of decimals in the input data
-    /// @param totalColumns The total number of columns in the CSV data
-    /// @param legend A boolean indicating whether to include a legend in the plot
-    function plot(
-        string memory inputCsv,
-        string memory outputSvg,
-        uint8 inputDecimals,
-        uint8 totalColumns,
-        bool legend
-    ) public {
+    /// -----------------------------------------------------------------------
+    /// Generates a plot from input CSV data and saves it as an SVG file
+    /// -----------------------------------------------------------------------
+
+    function plot(string memory csv, string memory svg, uint8 precision, uint8 columns, bool legend)
+        internal
+        virtual
+    {
         uint256 n;
 
         assembly {
@@ -30,28 +25,29 @@ abstract contract Plot is Test {
         ffi[0] = "solplot";
 
         ffi[1] = "--input-file";
-        ffi[2] = inputCsv;
+        ffi[2] = csv;
 
         ffi[3] = "--output-file";
-        ffi[4] = outputSvg;
+        ffi[4] = svg;
 
         ffi[5] = "--decimals";
-        ffi[6] = vm.toString(inputDecimals);
+        ffi[6] = vm.toString(precision);
 
         ffi[7] = "--columns";
-        ffi[8] = vm.toString(totalColumns);
+        ffi[8] = vm.toString(columns);
 
         if (legend) ffi[9] = "--legend";
 
         vm.ffi(ffi);
     }
 
-    /// @notice Writes a row of string data to a CSV file
-    /// @param file A string representing the CSV file that's written to
-    /// @param cols An array of string values representing the columns in the row
-    /// @return A string representing the CSV file that's written to
+    /// -----------------------------------------------------------------------
+    ///  Writes a row of string data to a CSV file
+    /// -----------------------------------------------------------------------
+
     function writeRowToCSV(string memory file, string[] memory cols)
-        public
+        internal
+        virtual
         returns (string memory)
     {
         unchecked {
@@ -69,12 +65,199 @@ abstract contract Plot is Test {
         }
     }
 
-    /// @notice Writes a row of uint256 data to a CSV file
-    /// @param file A string representing the CSV file that's written to
-    /// @param cols An array of uint256 values representing the columns in the row
-    /// @return A string representing the CSV file that's written to
+    function writeRowToCSV(string memory file, string memory column0)
+        internal
+        virtual
+        returns (string memory)
+    {
+        vm.writeLine(file, string.concat(column0, ","));
+
+        return file;
+    }
+
+    function writeRowToCSV(string memory file, string memory column0, string memory column1)
+        internal
+        virtual
+        returns (string memory)
+    {
+        vm.writeLine(file, string.concat(column0, ",", column1, ","));
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        string memory column0,
+        string memory column1,
+        string memory column2
+    ) internal virtual returns (string memory) {
+        vm.writeLine(file, string.concat(column0, ",", column1, ",", column2, ","));
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        string memory column0,
+        string memory column1,
+        string memory column2,
+        string memory column3
+    ) internal virtual returns (string memory) {
+        vm.writeLine(file, string.concat(column0, ",", column1, ",", column2, ",", column3, ","));
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        string memory column0,
+        string memory column1,
+        string memory column2,
+        string memory column3,
+        string memory column4
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(column0, ",", column1, ",", column2, ",", column3, ",", column4, ",")
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        string memory column0,
+        string memory column1,
+        string memory column2,
+        string memory column3,
+        string memory column4,
+        string memory column5
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                column0, ",", column1, ",", column2, ",", column3, ",", column4, ",", column5, ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        string memory column0,
+        string memory column1,
+        string memory column2,
+        string memory column3,
+        string memory column4,
+        string memory column5,
+        string memory column6
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                column0,
+                ",",
+                column1,
+                ",",
+                column2,
+                ",",
+                column3,
+                ",",
+                column4,
+                ",",
+                column5,
+                ",",
+                column6,
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        string memory column0,
+        string memory column1,
+        string memory column2,
+        string memory column3,
+        string memory column4,
+        string memory column5,
+        string memory column6,
+        string memory column7
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                column0,
+                ",",
+                column1,
+                ",",
+                column2,
+                ",",
+                column3,
+                ",",
+                column4,
+                ",",
+                column5,
+                ",",
+                column6,
+                ",",
+                column7,
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        string memory column0,
+        string memory column1,
+        string memory column2,
+        string memory column3,
+        string memory column4,
+        string memory column5,
+        string memory column6,
+        string memory column7,
+        string memory column8
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                column0,
+                ",",
+                column1,
+                ",",
+                column2,
+                ",",
+                column3,
+                ",",
+                column4,
+                ",",
+                column5,
+                ",",
+                column6,
+                ",",
+                column7,
+                ",",
+                column8,
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    /// -----------------------------------------------------------------------
+    /// Writes a row of uint256 data to a CSV file
+    /// -----------------------------------------------------------------------
+
     function writeRowToCSV(string memory file, uint256[] memory cols)
-        public
+        internal
+        virtual
         returns (string memory)
     {
         unchecked {
@@ -92,12 +275,237 @@ abstract contract Plot is Test {
         }
     }
 
-    /// @notice Writes a row of int256 data to a CSV file
-    /// @param file A string representing the CSV file that's written to
-    /// @param cols An array of int256 values representing the columns in the row
-    /// @return A string representing the CSV file that's written to
+    function writeRowToCSV(string memory file, uint256 column0)
+        internal
+        virtual
+        returns (string memory)
+    {
+        vm.writeLine(file, string.concat(vm.toString(column0), ","));
+
+        return file;
+    }
+
+    function writeRowToCSV(string memory file, uint256 column0, uint256 column1)
+        internal
+        virtual
+        returns (string memory)
+    {
+        vm.writeLine(file, string.concat(vm.toString(column0), ",", vm.toString(column1), ","));
+
+        return file;
+    }
+
+    function writeRowToCSV(string memory file, uint256 column0, uint256 column1, uint256 column2)
+        internal
+        virtual
+        returns (string memory)
+    {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0), ",", vm.toString(column1), ",", vm.toString(column2), ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        uint256 column0,
+        uint256 column1,
+        uint256 column2,
+        uint256 column3
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        uint256 column0,
+        uint256 column1,
+        uint256 column2,
+        uint256 column3,
+        uint256 column4
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        uint256 column0,
+        uint256 column1,
+        uint256 column2,
+        uint256 column3,
+        uint256 column4,
+        uint256 column5
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ",",
+                vm.toString(column5),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        uint256 column0,
+        uint256 column1,
+        uint256 column2,
+        uint256 column3,
+        uint256 column4,
+        uint256 column5,
+        uint256 column6
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ",",
+                vm.toString(column5),
+                ",",
+                vm.toString(column6),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        uint256 column0,
+        uint256 column1,
+        uint256 column2,
+        uint256 column3,
+        uint256 column4,
+        uint256 column5,
+        uint256 column6,
+        uint256 column7
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ",",
+                vm.toString(column5),
+                ",",
+                vm.toString(column6),
+                ",",
+                vm.toString(column7),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        uint256 column0,
+        uint256 column1,
+        uint256 column2,
+        uint256 column3,
+        uint256 column4,
+        uint256 column5,
+        uint256 column6,
+        uint256 column7,
+        uint256 column8
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ",",
+                vm.toString(column5),
+                ",",
+                vm.toString(column6),
+                ",",
+                vm.toString(column7),
+                ",",
+                vm.toString(column8),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    /// -----------------------------------------------------------------------
+    /// Writes a row of int256 data to a CSV file
+    /// -----------------------------------------------------------------------
+
     function writeRowToCSV(string memory file, int256[] memory cols)
-        public
+        internal
+        virtual
         returns (string memory)
     {
         unchecked {
@@ -113,5 +521,229 @@ abstract contract Plot is Test {
 
             return file;
         }
+    }
+
+    function writeRowToCSV(string memory file, int256 column0)
+        internal
+        virtual
+        returns (string memory)
+    {
+        vm.writeLine(file, string.concat(vm.toString(column0), ","));
+
+        return file;
+    }
+
+    function writeRowToCSV(string memory file, int256 column0, int256 column1)
+        internal
+        virtual
+        returns (string memory)
+    {
+        vm.writeLine(file, string.concat(vm.toString(column0), ",", vm.toString(column1), ","));
+
+        return file;
+    }
+
+    function writeRowToCSV(string memory file, int256 column0, int256 column1, int256 column2)
+        internal
+        virtual
+        returns (string memory)
+    {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0), ",", vm.toString(column1), ",", vm.toString(column2), ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        int256 column0,
+        int256 column1,
+        int256 column2,
+        int256 column3
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        int256 column0,
+        int256 column1,
+        int256 column2,
+        int256 column3,
+        int256 column4
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        int256 column0,
+        int256 column1,
+        int256 column2,
+        int256 column3,
+        int256 column4,
+        int256 column5
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ",",
+                vm.toString(column5),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        int256 column0,
+        int256 column1,
+        int256 column2,
+        int256 column3,
+        int256 column4,
+        int256 column5,
+        int256 column6
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ",",
+                vm.toString(column5),
+                ",",
+                vm.toString(column6),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        int256 column0,
+        int256 column1,
+        int256 column2,
+        int256 column3,
+        int256 column4,
+        int256 column5,
+        int256 column6,
+        int256 column7
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ",",
+                vm.toString(column5),
+                ",",
+                vm.toString(column6),
+                ",",
+                vm.toString(column7),
+                ","
+            )
+        );
+
+        return file;
+    }
+
+    function writeRowToCSV(
+        string memory file,
+        int256 column0,
+        int256 column1,
+        int256 column2,
+        int256 column3,
+        int256 column4,
+        int256 column5,
+        int256 column6,
+        int256 column7,
+        int256 column8
+    ) internal virtual returns (string memory) {
+        vm.writeLine(
+            file,
+            string.concat(
+                vm.toString(column0),
+                ",",
+                vm.toString(column1),
+                ",",
+                vm.toString(column2),
+                ",",
+                vm.toString(column3),
+                ",",
+                vm.toString(column4),
+                ",",
+                vm.toString(column5),
+                ",",
+                vm.toString(column6),
+                ",",
+                vm.toString(column7),
+                ",",
+                vm.toString(column8),
+                ","
+            )
+        );
+
+        return file;
     }
 }

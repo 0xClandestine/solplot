@@ -34,13 +34,10 @@ Now simply inherit `Plot` into your test contract, and you'll have access to plo
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import {Plot} from "../src/Plot.sol";
+import {Plot} from "solplot/src/Plot.sol";
 
 // Some math to plot out...
-function expToLevel(uint256 x, uint256 y, uint256 i, uint256 h)
-    pure
-    returns (uint256 z)
-{
+function expToLevel(uint256 x, uint256 y, uint256 i, uint256 h) pure returns (uint256 z) {
     z = x >> (i / h);
     z -= (z * (i % h) / h) >> 1;
     z += (x - z) * y / x;
@@ -49,39 +46,36 @@ function expToLevel(uint256 x, uint256 y, uint256 i, uint256 h)
 contract DemoPlot is Plot {
     function testPlot() public {
         unchecked {
-            string memory input = "input.csv";
-            string memory output = "output.svg";
-            string memory legend = ",h = 5,h = 10,h = 15,";
-
-            uint256 base = 1 ether;
-            uint256 target = 0.9 ether;
-            uint256[] memory cols = new uint256[](4);
-
             // Remove previous demo input CSV if it exists locally
-            try vm.removeFile(input) {} catch {}
+            try vm.removeFile("input.csv") {} catch {}
 
             // Write legend on the first line of demo output CSV
-            vm.writeLine(input, legend);
+            // NOTE: Use the 'writeRowToCSV(string memory, string[] memory)'
+            //       if more than 9 columns are needed.
+            writeRowToCSV(
+                "input.csv", "x-axis", "h=5", "h=10", "h=15", "h=20", "h=25", "h=30", "h=35", "h=40"
+            );
 
-            // Loop over a range, and compute the results of the mathematical function
-            for (uint256 i; i < 100; ++i) {
-                cols[0] = i * 1e18;
-                cols[1] = expToLevel(base, target, i, 5);
-                cols[2] = expToLevel(base, target, i, 10);
-                cols[3] = expToLevel(base, target, i, 15);
-
-                // Append the results to the input CSV
-                writeRowToCSV(input, cols);
+            // Loop over a range, and compute the results of some math
+            for (uint256 i; i < 150; ++i) {
+                // NOTE: Use the 'writeRowToCSV(string memory, uint256[] memory)'
+                //       if more than 9 columns are needed.
+                writeRowToCSV(
+                    "input.csv",
+                    i * 1 ether,
+                    expToLevel(1 ether, 0.9 ether, i, 5),
+                    expToLevel(1 ether, 0.9 ether, i, 10),
+                    expToLevel(1 ether, 0.9 ether, i, 15),
+                    expToLevel(1 ether, 0.9 ether, i, 20),
+                    expToLevel(1 ether, 0.9 ether, i, 25),
+                    expToLevel(1 ether, 0.9 ether, i, 30),
+                    expToLevel(1 ether, 0.9 ether, i, 35),
+                    expToLevel(1 ether, 0.9 ether, i, 40)
+                );
             }
 
             // Once the input CSV is fully created, use it to plot the output SVG
-            plot({
-                inputCsv: input,
-                outputSvg: output,
-                inputDecimals: 18,
-                totalColumns: 4,
-                legend: true
-            });
+            plot("input.csv", "output.svg", 18, 9, true);
         }
     }
 }
