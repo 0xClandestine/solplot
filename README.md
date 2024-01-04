@@ -75,7 +75,8 @@ contract DemoPlot is Plot {
             }
 
             // Once the input CSV is fully created, use it to plot the output SVG
-            plot("input.csv", "output.svg", 18, 9, true);
+            // NOTE: Output file can be .png or .svg
+            plot("input.csv", "output.svg", "ExpToLevel(x, y, i, h) -> (z) Plot", 18, 9, 900, 600, true);
         }
     }
 }
@@ -84,16 +85,17 @@ contract DemoPlot is Plot {
 &nbsp;
 # Usage
 
-
 ```
-Usage: solplot [OPTIONS] --input-file <INPUT_FILE> --output-file <OUTPUT_FILE> --decimals <DECIMALS> --columns <COLUMNS>
+Usage: solplot [OPTIONS] --input-file <INPUT_FILE> --output-file <OUTPUT_FILE> --precision <PRECISION> --columns <COLUMNS>
 
 Options:
-  -i, --input-file <INPUT_FILE>    
-  -o, --output-file <OUTPUT_FILE>  
-      --decimals <DECIMALS>        
-      --columns <COLUMNS>
-      --legend
-  -h, --help                       Print help information
-  -V, --version                    Print version information
+  -i, --input-file <INPUT_FILE>
+  -o, --output-file <OUTPUT_FILE>
+  -p, --precision <PRECISION>
+  -c, --columns <COLUMNS>
+  -w, --width <WIDTH>              [default: 800]
+  -h, --height <HEIGHT>            [default: 600]
+  -t, --title <TITLE>
+  -l, --legend
+  -h, --help                       Print help
 ```

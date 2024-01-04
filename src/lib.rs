@@ -1,6 +1,6 @@
-use plotly::{common::Mode, ImageFormat, Plot, Scatter};
-
 use clap::Parser;
+use plotly::{common::Mode, common::Title, Layout, ImageFormat, Plot, Scatter};
+use std::path::Path;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -11,13 +11,22 @@ pub struct Chart {
     #[arg(short, long, required = true)]
     pub output_file: String,
 
-    #[arg(long, required = true)]
-    pub decimals: f64,
+    #[arg(short, long, required = true)]
+    pub precision: f64,
 
-    #[arg(long, required = true)]
+    #[arg(short, long, required = true)]
     pub columns: usize,
 
-    #[arg(long, required = false)]
+    #[arg(short, long, required = false, default_value = "800")]
+    pub width: usize,
+
+    #[arg(short, long, required = false, default_value = "600")]
+    pub height: usize,
+
+    #[arg(short, long, required = false)]
+    pub title: String,
+
+    #[arg(short, long, required = false)]
     pub legend: bool,
 }
 
@@ -30,10 +39,10 @@ impl Chart {
     pub fn parse_column(&self, n: usize) -> Column {
         let mut values = vec![];
 
-        let denominator = if self.decimals == 1.0 {
+        let denominator = if self.precision == 1.0 {
             1.0
         } else {
-            10.0_f64.powf(self.decimals.into())
+            10.0_f64.powf(self.precision.into())
         };
 
         let data = txt_writer::ReadData {}
@@ -73,7 +82,6 @@ impl Chart {
 
         let x_axis = self.parse_column(0).contents;
 
-        // First column is always `x` axis, each additional column is a plot
         for i in 1..self.columns {
             let column: Column = self.parse_column(i);
 
@@ -84,6 +92,25 @@ impl Chart {
             );
         }
 
-        plot.write_image(&self.output_file, ImageFormat::SVG, 800, 600, 1.0);
+        let image_format = match Path::new(&self.output_file).extension() {
+            Some(ext) if ext == "svg" => ImageFormat::SVG,
+            Some(ext) if ext == "png" => ImageFormat::PNG,
+            _ => {
+                eprintln!("Unsupported file format. Defaulting to SVG.");
+                ImageFormat::SVG
+            }
+        };
+
+        if !self.title.is_empty() {
+            plot.set_layout(Layout::new().title(Title::new(&self.title)));
+        }
+
+        plot.write_image(
+            &self.output_file,
+            image_format,
+            self.width,
+            self.height,
+            1.0,
+        );
     }
 }

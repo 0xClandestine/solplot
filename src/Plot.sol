@@ -7,36 +7,51 @@ import "forge-std/Test.sol";
 /// @dev This contract provides functions to generate plots and write rows to CSV files.
 abstract contract Plot is Test {
     /// -----------------------------------------------------------------------
-    /// Generates a plot from input CSV data and saves it as an SVG file
+    /// Generates a plot from input CSV data and saves it as an image
     /// -----------------------------------------------------------------------
 
-    function plot(string memory csv, string memory svg, uint8 precision, uint8 columns, bool legend)
-        internal
-        virtual
-    {
+    function plot(
+        string memory csv,
+        string memory output,
+        string memory title,
+        uint256 precision,
+        uint256 columns,
+        uint256 width,
+        uint256 height,
+        bool legend
+    ) internal virtual {
         uint256 n;
 
         assembly {
-            n := add(9, legend)
+            n := add(15, legend)
         }
 
         string[] memory ffi = new string[](n);
 
         ffi[0] = "solplot";
 
-        ffi[1] = "--input-file";
+        ffi[1] = "-i";
         ffi[2] = csv;
 
-        ffi[3] = "--output-file";
-        ffi[4] = svg;
+        ffi[3] = "-o";
+        ffi[4] = output;
 
-        ffi[5] = "--decimals";
+        ffi[5] = "-p";
         ffi[6] = vm.toString(precision);
 
-        ffi[7] = "--columns";
+        ffi[7] = "-c";
         ffi[8] = vm.toString(columns);
 
-        if (legend) ffi[9] = "--legend";
+        ffi[9] = "-w";
+        ffi[10] = vm.toString(width);
+
+        ffi[11] = "-h";
+        ffi[12] = vm.toString(height);
+
+        ffi[13] = "-t";
+        ffi[14] = title;
+
+        if (legend) ffi[15] = "-l";
 
         vm.ffi(ffi);
     }
