@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+.gas-snapshot linguist-language=Julia
+
+**/*.sol linguist-language=Solidity

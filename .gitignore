@@ -1,3 +1,24 @@
 target/
 cache/
 out/
+.vscode
+.idea
+
+# NodeJS files
+node_modules/
+coverage
+coverage.json
+typechain
+
+# Hardhat files
+cache
+artifacts
+
+# Ignore Environment Variables!
+.env
+.env.prod
+
+# Ignore flattened files
+flattened.txt
+
+broadcast
